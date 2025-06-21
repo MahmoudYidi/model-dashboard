@@ -14,3 +14,4 @@ numpy==1.26.3  # Often paired with pandas
 # Use these versions for stability
 python-dotenv==1.0.0
 Flask-Login==0.6.2
+Werkzeug==2.3.7
