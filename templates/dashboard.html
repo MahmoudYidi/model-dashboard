@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <!-- Compact Side Panel -->
+        <div class="col-auto px-0" id="sidePanel" style="width: 220px; background: linear-gradient(180deg, #1B5E20 0%, #2E7D32 100%);">
+            <div class="d-flex flex-column px-2 pt-3 text-white min-vh-100">
+                <!-- Compact Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 px-2">
+                    <span class="fs-5 fw-bold" style="letter-spacing: 0.5px;">
+                        <!-- Logo or Title -->
+                    </span>
+                    <button class="btn btn-link text-white p-0" id="toggleSidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+                
+                <!-- Compact Navigation -->
+                <ul class="nav nav-pills flex-column gap-1 mb-auto px-1" id="dashboardTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link text-white w-100 text-start py-2 px-3 rounded" 
+                                id="model-tab" data-bs-toggle="tab" data-bs-target="#model" type="button" role="tab"
+                                style="transition: all 0.2s;">
+                            <i class="fas fa-brain fa-fw me-2"></i>
+                            <span>Model</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link text-white w-100 text-start py-2 px-3 rounded" 
+                                id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab"
+                                style="transition: all 0.2s;">
+                            <i class="fas fa-chart-bar fa-fw me-2"></i>
+                            <span>Analytics</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link text-white w-100 text-start py-2 px-3 rounded" 
+                                id="insights-tab" data-bs-toggle="tab" data-bs-target="#insights" type="button" role="tab"
+                                style="transition: all 0.2s;">
+                            <i class="fas fa-lightbulb fa-fw me-2"></i>
+                            <span>Insights</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link text-white w-100 text-start py-2 px-3 rounded" 
+                                id="botanist-tab" data-bs-toggle="tab" data-bs-target="#botanist" type="button" role="tab"
+                                style="transition: all 0.2s;">
+                            <i class="fas fa-comments fa-fw me-2"></i>
+                            <span>GreenAI-GPT</span>
+                        </button>
+                    </li>
+                </ul>
+                
+                <!-- Compact Footer -->
+                <div class="mt-auto px-2 py-3">
+                    <div class="d-flex align-items-center text-white text-decoration-none py-1 px-2 rounded" 
+                         style="background: rgba(255,255,255,0.05);">
+                        <img src="https://via.placeholder.com/32" alt="User" width="28" height="28" class="rounded-circle me-2">
+                        <span style="font-size: 0.85rem;">Admin</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tightly Integrated Main Content -->
+        <div class="col ps-0" id="mainContent" style="background-color: #f8f9fa;">
+            <div class="tab-content h-100" id="dashboardTabsContent">
+                <!-- Model Tab -->
+                <div class="tab-pane fade show active h-100" id="model" role="tabpanel">
+                    <iframe src="/model/" class="h-100 w-100 border-0"></iframe>
+                </div>
+                
+                <!-- Analytics Tab -->
+                <div class="tab-pane fade h-100" id="analytics" role="tabpanel">
+                    <iframe src="/analytics/" class="h-100 w-100 border-0"></iframe>
+                </div>
+                
+                <!-- Insights Tab -->
+                <div class="tab-pane fade h-100" id="insights" role="tabpanel">
+                    <iframe src="/insights/" class="h-100 w-100 border-0"></iframe>
+                </div>
+                
+                <!-- FarmGPT Tab -->
+                <div class="tab-pane fade h-100" id="botanist" role="tabpanel">
+                    <iframe src="/botanist-gpt/" class="h-100 w-100 border-0"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Ultra-Compact Side Panel */
+    #sidePanel {
+        transition: width 0.3s ease;
+        min-height: 100vh;
+        position: relative;
+        z-index: 100;
+        background: linear-gradient(180deg, #1B5E20 0%, #2E7D32 100%);
+        flex-shrink: 0;
+    }
+    
+    /* Tight Navigation Items */
+    .nav-pills .nav-link {
+        margin-bottom: 4px;
+        padding: 8px 12px !important;
+        font-size: 0.9rem;
+    }
+    
+    .nav-pills .nav-link.active {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-left: 3px solid #4CAF50 !important;
+    }
+    
+    .nav-pills .nav-link:hover:not(.active) {
+        background: rgba(255, 255, 255, 0.07) !important;
+    }
+    
+    /* Collapsed State */
+    .collapsed-sidebar {
+        width: 60px !important;
+    }
+    
+    .collapsed-sidebar .nav-link span {
+        display: none !important;
+    }
+    
+    .collapsed-sidebar .fs-5 span {
+        display: none !important;
+    }
+    
+    /* Zero-Gap Main Content */
+    #mainContent {
+        transition: margin-left 0.3s ease;
+        margin-left: 0;
+        padding-left: 0 !important;
+    }
+    
+    /* Full-height iframes */
+    .tab-pane {
+        padding: 0;
+    }
+    
+    iframe {
+        min-height: calc(100vh - 1px);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        #sidePanel {
+            position: fixed;
+            left: -220px;
+            z-index: 1000;
+        }
+        
+        #sidePanel.show-sidebar {
+            left: 0;
+        }
+        
+        #mainContent {
+            margin-left: 0 !important;
+        }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sidePanel = document.getElementById('sidePanel');
+    const toggleBtn = document.getElementById('toggleSidebar');
+    
+    // Toggle sidebar
+    toggleBtn.addEventListener('click', function() {
+        sidePanel.classList.toggle('collapsed-sidebar');
+        
+        // Store state
+        localStorage.setItem('sidebarCollapsed', sidePanel.classList.contains('collapsed-sidebar'));
+    });
+    
+    // Load saved state
+    if (localStorage.getItem('sidebarCollapsed') === 'true') {
+        sidePanel.classList.add('collapsed-sidebar');
+    }
+    
+    // Set active tab iframe height
+    function setIframeHeight() {
+        const activePane = document.querySelector('.tab-pane.active');
+        if (activePane && activePane.querySelector('iframe')) {
+            activePane.querySelector('iframe').style.height = window.innerHeight + 'px';
+        }
+    }
+    
+    // Initialize and handle resize
+    setIframeHeight();
+    window.addEventListener('resize', setIframeHeight);
+    
+    // Handle tab changes
+    const tabLinks = document.querySelectorAll('[data-bs-toggle="tab"]');
+    tabLinks.forEach(link => {
+        link.addEventListener('shown.bs.tab', setIframeHeight);
+    });
+});
+</script>
+{% endblock %}

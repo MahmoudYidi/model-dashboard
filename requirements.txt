@@ -1,0 +1,12 @@
+# Core Dash requirements
+dash==2.14.2
+dash-bootstrap-components==1.6.0
+plotly==5.18.0
+
+# Backend server
+Flask==2.3.2
+gunicorn==21.2.0
+
+# Optional but recommended
+pandas==2.1.4  # Commonly used with Dash
+numpy==1.26.3  # Often paired with pandas

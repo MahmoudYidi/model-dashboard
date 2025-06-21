@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid d-flex flex-column min-vh-100 px-0">
+    <div class="row flex-grow-1 justify-content-center align-items-center mx-0">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4 px-4">
+            <div class="card login-card shadow border-0">
+                <!-- Card Header -->
+                <div class="card-header text-white text-center border-0 bg-transparent">
+                    <i class="fas fa-leaf fa-2x mb-2"></i>
+                    <h2 class="fw-bold mb-0">GreenAI</h2>
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body px-4 py-5">
+                    <form method="POST" class="needs-validation" novalidate>
+                        <!-- Username -->
+                        <div class="mb-4">
+                            <label for="username" class="form-label text-white small fw-bold mb-2">USERNAME</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-transparent text-white border-end-0">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <input type="text" class="form-control bg-transparent border-start-0 text-white" 
+                                       id="username" name="username" placeholder="Enter username" required>
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-4">
+                            <label for="password" class="form-label text-white small fw-bold mb-2">PASSWORD</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-transparent text-white border-end-0">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <input type="password" class="form-control bg-transparent border-start-0 text-white" 
+                                       id="password" name="password" placeholder="••••••••" required>
+                            </div>
+                        </div>
+
+                        <!-- Login Button -->
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-success btn-lg fw-bold rounded-pill">
+                                <i class="fas fa-sign-in-alt me-2"></i>LOGIN
+                            </button>
+                        </div>
+
+                        <!-- Forgot Password -->
+                        <div class="text-center mt-4">
+                            <a href="#" class="text-white small text-decoration-underline">Forgot your password?</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Card Footer -->
+                <div class="card-footer text-center bg-transparent border-0 mt-2">
+                    <p class="text-white small mb-0">Need access? <a href="#" class="text-success fw-bold text-decoration-none">Contact admin</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Styles -->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        font-family: 'Poppins', sans-serif;
+        overflow-x: hidden;
+    }
+
+    body {
+        background: 
+            linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+            url("{{ url_for('static', filename='images/login_bg.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .login-card {
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: 1.5rem;
+        color: #ffffff;
+    }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        color: #ffffff;
+        transition: all 0.3s ease;
+    }
+
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .form-control:focus {
+        background: rgba(255, 255, 255, 0.2);
+        outline: none;
+        box-shadow: 0 0 0 0.25rem rgba(72, 239, 143, 0.3);
+    }
+
+    .input-group-text {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px 0 0 12px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+        padding: 0.75rem;
+        font-size: 1rem;
+        border-radius: 50px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    .text-white a {
+        color: #ffffff;
+        text-decoration: underline;
+    }
+
+    .text-white a:hover {
+        text-decoration: none;
+        color: #dddddd;
+    }
+
+    @media (max-width: 576px) {
+        .card-body {
+            padding: 1.5rem !important;
+        }
+    }
+</style>
+
+<!-- Font Awesome -->
+<script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
+
+<!-- Form Validation -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const forms = document.querySelectorAll('.needs-validation');
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    });
+</script>
+{% endblock %}
