@@ -10,3 +10,6 @@ gunicorn==21.2.0
 # Optional but recommended
 pandas==2.1.4  # Commonly used with Dash
 numpy==1.26.3  # Often paired with pandas
+
+# Use these versions for stability
+python-dotenv==1.0.0
