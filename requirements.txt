@@ -15,3 +15,8 @@ numpy==1.26.3  # Often paired with pandas
 python-dotenv==1.0.0
 Flask-Login==0.6.2
 Werkzeug==2.3.7
+
+# Google AI
+google-generativeai==0.3.2
+google-auth==2.23.4
+google-auth-oauthlib==1.2.0
