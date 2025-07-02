@@ -3,97 +3,116 @@
 {% block content %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
+<!-- Fixed Top Navbar (Logo Only) -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: linear-gradient(180deg, #1B5E20 0%, #2E7D32 100%); box-shadow: 0 2px 10px rgba(0,0,0,0.1); height: 56px;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('main.home') }}">
+            <img src="{{ url_for('static', filename='images/logo3.png') }}" height="30" class="d-inline-block align-top" alt="Logo">
+        </a>
+        <button class="navbar-toggler d-lg-none" type="button" id="openSidebarMobile">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
 <div class="container-fluid">
     <div class="row flex-nowrap">
-        <!-- Side Panel -->
-        <div class="col-auto px-0" id="sidePanel" style="width: 220px; background: linear-gradient(180deg, #1B5E20 0%, #2E7D32 100%);">
-            <div class="d-flex flex-column px-2 pt-3 text-white min-vh-100">
-                <!-- Header with close button for mobile -->
-                <div class="d-flex justify-content-between align-items-center mb-4 px-2">
-                    <span class="fs-5 fw-bold text-white" style="letter-spacing: 0.5px;">
-                        <!-- Logo or Title -->
-                    </span>
-                    <div>
-                        <button class="btn btn-link text-white p-0 d-lg-none" id="closeSidebarMobile">
-                            <i class="fas fa-times"></i>
-                        </button>
-                        <button class="btn btn-link text-white p-0 d-none d-lg-block" id="toggleSidebar">
-                            <i class="fas fa-bars text-white"></i>
-                        </button>
-                    </div>
+        <!-- Fixed Side Panel (Below Navbar) -->
+        <div class="col-auto px-0 position-fixed" id="sidePanel" style="width: 220px; top: 56px; bottom: 0; background: linear-gradient(180deg, #1B5E20 0%, #2E7D32 100%); z-index: 1000; overflow-y: auto;">
+            <div class="d-flex flex-column px-2 pt-3 text-white h-100">
+                <!-- Sidebar Header with Aligned Toggle Button -->
+                <div class="d-flex justify-content-start mb-3 px-2">
+                    <button class="btn btn-link text-white p-0 d-none d-lg-block sidebar-toggle" id="toggleSidebar">
+                        <i class="fas fa-bars me-2"></i>
+                        <span class="nav-item-text">Collapse</span>
+                    </button>
                 </div>
                 
-                <!-- Navigation -->
+                <!-- Navigation Menu -->
                 <ul class="nav nav-pills flex-column gap-1 mb-auto px-1" id="dashboardTabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link text-white w-100 text-start py-2 px-3 rounded" 
-                                id="model-tab" data-bs-toggle="tab" data-bs-target="#model" type="button" role="tab"
-                                style="transition: all 0.2s;">
+                        <button class="nav-link text-white w-100 text-start py-2 px-3 rounded sidebar-item" id="model-tab" data-bs-toggle="tab" data-bs-target="#model" type="button" role="tab">
                             <i class="fas fa-brain fa-fw me-2"></i>
-                            <span>Model</span>
+                            <span class="nav-item-text">Model</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link text-white w-100 text-start py-2 px-3 rounded" 
-                                id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab"
-                                style="transition: all 0.2s;">
+                        <button class="nav-link text-white w-100 text-start py-2 px-3 rounded sidebar-item" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab">
                             <i class="fas fa-chart-bar fa-fw me-2"></i>
-                            <span>Analytics</span>
+                            <span class="nav-item-text">Analytics</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link text-white w-100 text-start py-2 px-3 rounded" 
-                                id="insights-tab" data-bs-toggle="tab" data-bs-target="#insights" type="button" role="tab"
-                                style="transition: all 0.2s;">
+                        <button class="nav-link text-white w-100 text-start py-2 px-3 rounded sidebar-item" id="insights-tab" data-bs-toggle="tab" data-bs-target="#insights" type="button" role="tab">
                             <i class="fas fa-lightbulb fa-fw me-2"></i>
-                            <span>Insights</span>
+                            <span class="nav-item-text">Insights</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link text-white w-100 text-start py-2 px-3 rounded" 
-                                id="botanist-tab" data-bs-toggle="tab" data-bs-target="#botanist" type="button" role="tab"
-                                style="transition: all 0.2s;">
+                        <button class="nav-link text-white w-100 text-start py-2 px-3 rounded sidebar-item" id="botanist-tab" data-bs-toggle="tab" data-bs-target="#botanist" type="button" role="tab">
                             <i class="fas fa-comments fa-fw me-2"></i>
-                            <span>GreenAI-GPT</span>
+                            <span class="nav-item-text">GreenAI-GPT</span>
                         </button>
+                    </li>
+                    
+                    <!-- Fruit Selection Dropdown -->
+                    <li class="nav-item dropdown mt-3">
+                        <a class="nav-link dropdown-toggle text-white w-100 text-start py-2 px-3 rounded sidebar-item" href="#" id="fruitDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-apple-alt fa-fw me-2"></i>
+                            <span class="nav-item-text" id="current-fruit-display">Select Fruit</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" style="background: linear-gradient(180deg, #1B5E20 0%, #2E7D32 100%); border: 1px solid rgba(255,255,255,0.1);">
+                            <li><h6 class="dropdown-header text-white">Fruit Types</h6></li>
+                            <li><a class="dropdown-item text-white fruit-option" href="#" data-value="apple"><i class="fas fa-apple-alt me-2"></i>Tomato</a></li>
+                            <li><a class="dropdown-item text-white fruit-option" href="#" data-value="banana"><i class="fas fa-banana me-2"></i>Banana</a></li>
+                            <li><a class="dropdown-item text-white fruit-option" href="#" data-value="orange"><i class="fas fa-orange me-2"></i>Orange</a></li>
+                            <li><a class="dropdown-item text-white fruit-option" href="#" data-value="grape"><i class="fas fa-grapes me-2"></i>Grape</a></li>
+                            <li><a class="dropdown-item text-white fruit-option" href="#" data-value="strawberry"><i class="fas fa-strawberry me-2"></i>Strawberry</a></li>
+                            <li><hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.1);"></li>
+                            <li><a class="dropdown-item text-white" href="#" id="clear-fruit"><i class="fas fa-times-circle me-2"></i>Clear Selection</a></li>
+                        </ul>
                     </li>
                 </ul>
                 
-                <!-- Footer -->
+                <!-- User Section (Fixed at Bottom) -->
                 <div class="mt-auto px-2 py-3">
-                    <div class="d-flex align-items-center text-white text-decoration-none py-1 px-2 rounded" 
-                         style="background: rgba(255,255,255,0.05);">
-                        <img src="https://via.placeholder.com/32" alt="User" width="28" height="28" class="rounded-circle me-2">
-                        <span style="font-size: 0.85rem;">Admin</span>
+                    {% if current_user.is_authenticated %}
+                    <div class="d-flex align-items-center text-white text-decoration-none py-1 px-2 rounded user-section sidebar-item" style="background: rgba(255,255,255,0.05);">
+                        <i class="fas fa-user-circle fa-lg user-icon me-2"></i>
+                        <div class="user-details">
+                            <div class="user-name" style="font-size: 0.85rem;">{{ current_user.id }}</div>
+                            <a href="{{ url_for('auth.logout') }}" class="text-white logout-btn" style="font-size: 0.75rem;">
+                                <i class="fas fa-sign-out-alt me-1"></i>
+                                <span class="logout-text">Logout</span>
+                            </a>
+                        </div>
                     </div>
+                    {% else %}
+                    <div class="d-flex align-items-center text-white text-decoration-none py-1 px-2 rounded login-section sidebar-item" style="background: rgba(255,255,255,0.05);">
+                        <i class="fas fa-sign-in-alt login-icon me-2"></i>
+                        <div class="login-details">
+                            <a href="{{ url_for('auth.login') }}" class="text-white">
+                                <span class="login-text">Login</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
         
-        <!-- Main Content -->
-        <div class="col ps-0" id="mainContent" style="background-color: #f8f9fa;">
-            <!-- Mobile menu button -->
-            <button class="btn btn-dark d-lg-none m-2" id="openSidebarMobile">
-                <i class="fas fa-bars"></i>
-            </button>
-            
+        <!-- Main Content Area -->
+        <div class="col ps-0" id="mainContent" style="margin-left: 220px; margin-top: 56px; background-color: #f8f9fa;">
             <div class="tab-content h-100" id="dashboardTabsContent">
-                <!-- Model Tab -->
                 <div class="tab-pane fade show active h-100" id="model" role="tabpanel">
                     <iframe src="/model/" class="h-100 w-100 border-0"></iframe>
                 </div>
-                
-                <!-- Analytics Tab -->
                 <div class="tab-pane fade h-100" id="analytics" role="tabpanel">
                     <iframe src="/analytics/" class="h-100 w-100 border-0"></iframe>
                 </div>
-                
-                <!-- Insights Tab -->
                 <div class="tab-pane fade h-100" id="insights" role="tabpanel">
                     <iframe src="/insights/" class="h-100 w-100 border-0"></iframe>
                 </div>
-                
-                <!-- FarmGPT Tab -->
                 <div class="tab-pane fade h-100" id="botanist" role="tabpanel">
                     <iframe src="/botanist-gpt/" class="h-100 w-100 border-0"></iframe>
                 </div>
@@ -102,16 +121,22 @@
     </div>
 </div>
 
+<!-- Mobile Sidebar Overlay -->
+<div class="sidebar-overlay"></div>
+
 <style>
+    /* Fixed Navbar */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1030;
+    }
+    
     /* Side Panel */
     #sidePanel {
         transition: all 0.3s ease;
-        min-height: 100vh;
-        position: fixed;
-        left: 0;
-        z-index: 1000;
-        background: linear-gradient(180deg, #1B5E20 0%, #2E7D32 100%);
-        flex-shrink: 0;
     }
     
     /* Navigation Items */
@@ -119,6 +144,7 @@
         margin-bottom: 4px;
         padding: 8px 12px !important;
         font-size: 0.9rem;
+        transition: all 0.2s;
     }
     
     .nav-pills .nav-link.active {
@@ -135,18 +161,21 @@
         width: 60px !important;
     }
     
-    .collapsed-sidebar .nav-link span {
-        display: none !important;
-    }
-    
-    .collapsed-sidebar .fs-5 span {
+    .collapsed-sidebar .nav-item-text,
+    .collapsed-sidebar .user-details,
+    .collapsed-sidebar .login-details,
+    .collapsed-sidebar .sidebar-toggle span {
         display: none !important;
     }
     
     /* Main Content */
     #mainContent {
         transition: margin-left 0.3s ease;
-        margin-left: 220px;
+        min-height: calc(100vh - 56px);
+    }
+    
+    .collapsed-main {
+        margin-left: 60px !important;
     }
     
     /* Full-height iframes */
@@ -155,16 +184,39 @@
     }
     
     iframe {
-        min-height: calc(100vh - 1px);
+        min-height: calc(100vh - 56px);
+    }
+    
+    /* Sidebar Toggle Button */
+    .sidebar-toggle {
+        width: 100%;
+        text-align: left;
+        padding: 8px 12px !important;
+    }
+    
+    /* User Section */
+    .user-section, .login-section {
+        transition: all 0.3s ease;
+    }
+    
+    .collapsed-sidebar .user-section,
+    .collapsed-sidebar .login-section {
+        justify-content: center;
+        padding: 0.5rem !important;
+    }
+    
+    .user-icon, .login-icon {
+        width: 24px;
+        text-align: center;
     }
     
     /* Mobile Overlay */
     .sidebar-overlay {
         position: fixed;
-        top: 0;
+        top: 56px;
         left: 0;
         width: 100%;
-        height: 100%;
+        height: calc(100% - 56px);
         background-color: rgba(0,0,0,0.5);
         z-index: 999;
         display: none;
@@ -183,37 +235,21 @@
         #mainContent {
             margin-left: 0 !important;
         }
-        
-        #openSidebarMobile {
-            display: block !important;
-        }
-    }
-    
-    @media (min-width: 992px) {
-        #openSidebarMobile {
-            display: none !important;
-        }
-        
-        #closeSidebarMobile {
-            display: none !important;
-        }
     }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const sidePanel = document.getElementById('sidePanel');
+    const mainContent = document.getElementById('mainContent');
     const toggleBtn = document.getElementById('toggleSidebar');
     const openBtnMobile = document.getElementById('openSidebarMobile');
-    const closeBtnMobile = document.getElementById('closeSidebarMobile');
-    const overlay = document.createElement('div');
-    overlay.className = 'sidebar-overlay';
-    document.body.appendChild(overlay);
+    const overlay = document.querySelector('.sidebar-overlay');
+    const sidebarItems = document.querySelectorAll('.sidebar-item');
     
     // Toggle sidebar on desktop
     toggleBtn.addEventListener('click', function() {
-        sidePanel.classList.toggle('collapsed-sidebar');
-        localStorage.setItem('sidebarCollapsed', sidePanel.classList.contains('collapsed-sidebar'));
+        toggleSidebar();
     });
     
     // Open sidebar on mobile
@@ -223,29 +259,38 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Close sidebar on mobile
-    closeBtnMobile.addEventListener('click', function() {
-        sidePanel.classList.remove('show-sidebar');
-        overlay.style.display = 'none';
-    });
-    
-    // Close when clicking overlay
     overlay.addEventListener('click', function() {
         sidePanel.classList.remove('show-sidebar');
         overlay.style.display = 'none';
     });
     
+    // Expand sidebar when clicking any item (if collapsed)
+    sidebarItems.forEach(item => {
+        item.addEventListener('click', function() {
+            if (sidePanel.classList.contains('collapsed-sidebar')) {
+                toggleSidebar();
+            }
+        });
+    });
+    
+    // Toggle sidebar function
+    function toggleSidebar() {
+        sidePanel.classList.toggle('collapsed-sidebar');
+        mainContent.classList.toggle('collapsed-main');
+        localStorage.setItem('sidebarCollapsed', sidePanel.classList.contains('collapsed-sidebar'));
+    }
+    
     // Load saved state
     if (localStorage.getItem('sidebarCollapsed') === 'true') {
         sidePanel.classList.add('collapsed-sidebar');
+        mainContent.classList.add('collapsed-main');
     }
     
     // Set active tab iframe height
     function setIframeHeight() {
         const activePane = document.querySelector('.tab-pane.active');
         if (activePane && activePane.querySelector('iframe')) {
-            const navbarHeight = document.querySelector('nav.navbar').offsetHeight || 0;
-            const contentHeight = window.innerHeight - navbarHeight;
-            activePane.querySelector('iframe').style.height = contentHeight + 'px';
+            activePane.querySelector('iframe').style.height = 'calc(100vh - 56px)';
         }
     }
     
@@ -258,6 +303,51 @@ document.addEventListener('DOMContentLoaded', function() {
     tabLinks.forEach(link => {
         link.addEventListener('shown.bs.tab', setIframeHeight);
     });
+    
+    // Fruit selection handling
+    const fruitOptions = document.querySelectorAll('.fruit-option');
+    const currentFruitDisplay = document.getElementById('current-fruit-display');
+    const clearFruitBtn = document.getElementById('clear-fruit');
+    
+    // Load saved selection
+    const savedFruit = localStorage.getItem('selectedFruit');
+    if (savedFruit) {
+        updateFruitDisplay(savedFruit);
+    }
+    
+    // Handle selection
+    fruitOptions.forEach(option => {
+        option.addEventListener('click', function(e) {
+            e.preventDefault();
+            const fruit = this.getAttribute('data-value');
+            localStorage.setItem('selectedFruit', fruit);
+            updateFruitDisplay(fruit);
+            notifyFruitChange(fruit);
+        });
+    });
+    
+    // Clear selection
+    clearFruitBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('selectedFruit');
+        currentFruitDisplay.textContent = 'Select Fruit';
+        notifyFruitChange(null);
+    });
+    
+    function updateFruitDisplay(fruit) {
+        if (fruit) {
+            currentFruitDisplay.textContent = fruit.charAt(0).toUpperCase() + fruit.slice(1);
+        }
+    }
+    
+    function notifyFruitChange(fruit) {
+        document.dispatchEvent(new CustomEvent('fruitChanged', { detail: { fruit: fruit } }));
+        fetch('/set-fruit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fruit: fruit })
+        });
+    }
 });
 </script>
 {% endblock %}
