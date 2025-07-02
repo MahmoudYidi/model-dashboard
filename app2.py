@@ -51,7 +51,7 @@ def create_app():
         return decorated
     
     # Metrics API endpoint
-    @app.route('/api/v1/metrics', methods=['POST', 'OPTIONS'])
+    @app.route('/api/v1/metrics/', methods=['POST', 'OPTIONS'])
     @require_api_key
     def handle_metrics():
         if request.method == 'OPTIONS':
