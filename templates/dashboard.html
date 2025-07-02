@@ -5,20 +5,23 @@
 
 <div class="container-fluid">
     <div class="row flex-nowrap">
-        <!-- Compact Side Panel -->
+        <!-- Side Panel -->
         <div class="col-auto px-0" id="sidePanel" style="width: 220px; background: linear-gradient(180deg, #1B5E20 0%, #2E7D32 100%);">
             <div class="d-flex flex-column px-2 pt-3 text-white min-vh-100">
-                <!-- Compact Header -->
+                <!-- Header with close button for mobile -->
                 <div class="d-flex justify-content-between align-items-center mb-4 px-2">
                     <span class="fs-5 fw-bold" style="letter-spacing: 0.5px;">
                         <!-- Logo or Title -->
                     </span>
-                    <button class="btn btn-link text-white p-0" id="toggleSidebar">
+                    <button class="btn btn-link text-white p-0 d-lg-none" id="closeSidebarMobile">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <button class="btn btn-link text-white p-0 d-none d-lg-block" id="toggleSidebar">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
                 
-                <!-- Compact Navigation -->
+                <!-- Navigation -->
                 <ul class="nav nav-pills flex-column gap-1 mb-auto px-1" id="dashboardTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link text-white w-100 text-start py-2 px-3 rounded" 
@@ -54,7 +57,7 @@
                     </li>
                 </ul>
                 
-                <!-- Compact Footer -->
+                <!-- Footer -->
                 <div class="mt-auto px-2 py-3">
                     <div class="d-flex align-items-center text-white text-decoration-none py-1 px-2 rounded" 
                          style="background: rgba(255,255,255,0.05);">
@@ -65,8 +68,13 @@
             </div>
         </div>
         
-        <!-- Tightly Integrated Main Content -->
+        <!-- Main Content -->
         <div class="col ps-0" id="mainContent" style="background-color: #f8f9fa;">
+            <!-- Mobile menu button -->
+            <button class="btn btn-dark d-lg-none m-2" id="openSidebarMobile">
+                <i class="fas fa-bars"></i>
+            </button>
+            
             <div class="tab-content h-100" id="dashboardTabsContent">
                 <!-- Model Tab -->
                 <div class="tab-pane fade show active h-100" id="model" role="tabpanel">
@@ -93,17 +101,18 @@
 </div>
 
 <style>
-    /* Ultra-Compact Side Panel */
+    /* Side Panel */
     #sidePanel {
-        transition: width 0.3s ease;
+        transition: all 0.3s ease;
         min-height: 100vh;
-        position: relative;
-        z-index: 100;
+        position: fixed;
+        left: 0;
+        z-index: 1000;
         background: linear-gradient(180deg, #1B5E20 0%, #2E7D32 100%);
         flex-shrink: 0;
     }
     
-    /* Tight Navigation Items */
+    /* Navigation Items */
     .nav-pills .nav-link {
         margin-bottom: 4px;
         padding: 8px 12px !important;
@@ -132,11 +141,10 @@
         display: none !important;
     }
     
-    /* Zero-Gap Main Content */
+    /* Main Content */
     #mainContent {
         transition: margin-left 0.3s ease;
-        margin-left: 0;
-        padding-left: 0 !important;
+        margin-left: 220px;
     }
     
     /* Full-height iframes */
@@ -148,12 +156,22 @@
         min-height: calc(100vh - 1px);
     }
     
+    /* Mobile Overlay */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 999;
+        display: none;
+    }
+    
     /* Responsive Adjustments */
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
         #sidePanel {
-            position: fixed;
             left: -220px;
-            z-index: 1000;
         }
         
         #sidePanel.show-sidebar {
@@ -163,6 +181,20 @@
         #mainContent {
             margin-left: 0 !important;
         }
+        
+        #openSidebarMobile {
+            display: block !important;
+        }
+    }
+    
+    @media (min-width: 992px) {
+        #openSidebarMobile {
+            display: none !important;
+        }
+        
+        #closeSidebarMobile {
+            display: none !important;
+        }
     }
 </style>
 
@@ -170,13 +202,34 @@
 document.addEventListener('DOMContentLoaded', function() {
     const sidePanel = document.getElementById('sidePanel');
     const toggleBtn = document.getElementById('toggleSidebar');
+    const openBtnMobile = document.getElementById('openSidebarMobile');
+    const closeBtnMobile = document.getElementById('closeSidebarMobile');
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    document.body.appendChild(overlay);
     
-    // Toggle sidebar
+    // Toggle sidebar on desktop
     toggleBtn.addEventListener('click', function() {
         sidePanel.classList.toggle('collapsed-sidebar');
-        
-        // Store state
         localStorage.setItem('sidebarCollapsed', sidePanel.classList.contains('collapsed-sidebar'));
+    });
+    
+    // Open sidebar on mobile
+    openBtnMobile.addEventListener('click', function() {
+        sidePanel.classList.add('show-sidebar');
+        overlay.style.display = 'block';
+    });
+    
+    // Close sidebar on mobile
+    closeBtnMobile.addEventListener('click', function() {
+        sidePanel.classList.remove('show-sidebar');
+        overlay.style.display = 'none';
+    });
+    
+    // Close when clicking overlay
+    overlay.addEventListener('click', function() {
+        sidePanel.classList.remove('show-sidebar');
+        overlay.style.display = 'none';
     });
     
     // Load saved state
@@ -188,7 +241,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function setIframeHeight() {
         const activePane = document.querySelector('.tab-pane.active');
         if (activePane && activePane.querySelector('iframe')) {
-            activePane.querySelector('iframe').style.height = window.innerHeight + 'px';
+            const navbarHeight = document.querySelector('nav.navbar').offsetHeight || 0;
+            const contentHeight = window.innerHeight - navbarHeight;
+            activePane.querySelector('iframe').style.height = contentHeight + 'px';
         }
     }
     
