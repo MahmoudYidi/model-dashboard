@@ -12,6 +12,12 @@ def init_analytics_app(server):
         external_stylesheets=[dbc.themes.BOOTSTRAP],
         meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}]
     )
+    @server.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+        return response
     
     # Static configuration
     THRESHOLD = 8
